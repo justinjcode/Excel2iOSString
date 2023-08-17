@@ -52,12 +52,17 @@ def convertFromMultipleForm(options, fileDir, targetDir):
                 # 先取所有词条存到keys
                 keys = []
                 for cell in sheet['A']:
+                    # 第一行不是词条，跳过
+                    if cell.row == 1:
+                        continue
                     if isCellNotEmpty(cell):
                         keys.append(cell.value)
+                    else:
+                        keys.append("error_key!!!\"")
                 # 每一列对应一种语言
                 for column in sheet.columns:
                     if isCellNotEmpty(column[0]):
-                        language = column[0].value
+                        language = column[0].value.strip()
                         values = []
                         for cell in column:
                             if cell.row == 1:

@@ -1,6 +1,5 @@
 
 
-
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 
 <a name="readme-top"></a>
@@ -108,25 +107,7 @@ cd /Users/xxx/Documents/Excel2iOSString
 python3 Xls2Strings.py -f input -t output
 
 ```
-
-### Excel format
-<p>
-Generally, an iOS project requires a Localizable.strings file and an InfoPlist.strings file. They correspond to a sheet in excel, and the title of the sheet is the file name.
-The first column is the key of the entry, and each subsequent column represents a language.
-<p>
-一般来说，一个iOS工程需要一个Localizable.strings文件，以及一个InfoPlist.strings文件。它们在excel对应一个sheet，sheet的标题就是文件名。
-第一列是词条的key，后面每一列表示一种语言。
-<br />
-
-[![Excel format][table-screenshot]](https://example.com)
-
-<p>
-results:
-<p>
-生成结果：
-<br />
-
-  [![Results][results-screenshot]](https://example.com)
+  
 
 <!-- LICENSE -->
 
@@ -148,6 +129,3 @@ Project Link: [https://github.com/justinjcode/Excel2iOSString](https://github.co
 <!-- MARKDOWN LINKS & IMAGES -->
 
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-[table-screenshot]: screenshots/table.png
-[results-screenshot]: screenshots/results.png
