@@ -62,7 +62,7 @@ def convertFromMultipleForm(options, fileDir, targetDir):
                 # 每一列对应一种语言
                 for column in sheet.columns:
                     if isCellNotEmpty(column[0]):
-                        language = column[0].value.strip()
+                        language = str(column[0].value).strip()
                         values = []
                         for cell in column:
                             if cell.row == 1:
@@ -76,8 +76,13 @@ def convertFromMultipleForm(options, fileDir, targetDir):
 
 
 def isCellNotEmpty(cell):
-    str = cell.value
-    return str is not None and str.strip() is not None and len(str.strip()) > 0
+    value = cell.value
+    if value is not None:
+        s = str(cell.value)
+        return  s.strip() is not None and len(s.strip()) > 0
+    else :
+        return False
+        
 
 
 def startConvert(options):

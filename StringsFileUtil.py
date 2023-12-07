@@ -32,8 +32,8 @@ class StringsFileUtil:
                           "\'s value is None. Index:" + str(x + 1))
                 continue
 
-            key = keys[x].strip()
-            value = values[x]
+            key = str(keys[x]).strip()
+            value = str(values[x])
             content = "\"" + key + "\" " + "= " + "\"" + value + "\";\n"
             fo.write(content.encode())
 
