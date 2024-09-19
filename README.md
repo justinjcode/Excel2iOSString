@@ -42,10 +42,10 @@
 <br />
 
 <p>
-python3 script for converting excel into iOS localization files  
+python3 script for converting excel into iOS/Android localization files  
 
 <p>
-python3脚本，用于将excel转成iOS本地化文件
+python3脚本，用于将excel转成iOS/安卓本地化文件
 
 <br />
 
@@ -57,11 +57,12 @@ python3脚本，用于将excel转成iOS本地化文件
 
 This project is modified based on CatchZeng's project Localizable.strings2Excel.
 Since CatchZeng's project uses python2 and only supports the xls format (this format is outdated), it is not suitable for me to use, so I made some changes, including some logic of generating files, and the referenced libraries are different.
-In addition, this project currently only supports the conversion of excel to iOS files, and other types of conversion are not currently used, so they are not added.
+~~In addition, this project currently only supports the conversion of excel to iOS files, and other types of conversion are not currently used, so they are not added.~~
+Both iOS and Android are supported now.
 
 本项目是基于CatchZeng的项目Localizable.strings2Excel修改的。
 由于CatchZeng的项目是用python2，并且只支持xls格式（该格式已经过时了），我用起来不合适，于是做了些改动，包括一些生成文件的逻辑，以及引用的库都有所不同。
-另外本项目目前仅支持将excel转成iOS文件，其它类型的转换目前没用到所以没加。
+另外本项目目前~~仅支持将excel转成iOS文件，其它类型的转换目前没用到所以没加。~~ 已支持iOS和安卓
   
 
 <!-- GETTING STARTED -->
@@ -100,12 +101,21 @@ pip3 install openpyxl
 cd /Users/xxx/Documents/Excel2iOSString
 ```
 
-2. run
-	执行脚本
-
+2. <p>run
+	<p>执行脚本
+<p>excel to iOS
+	
 ```sh
 
 python3 Xls2Strings.py -f input -t output
+
+```
+
+<p>excel to Android
+	
+```sh
+
+python3 Xls2Xml.py -f input -t output
 
 ```
 
