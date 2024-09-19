@@ -120,6 +120,7 @@ python3 Xls2Xml.py -f input -t output
 ```
 
 ### Excel format
+<p>iOS:
 <p>
 Generally, an iOS project requires a Localizable.strings file and an InfoPlist.strings file. They correspond to a sheet in excel, and the title of the sheet is the file name.
 The first column is the key of the entry, and each subsequent column represents a language.
@@ -137,6 +138,14 @@ results:
 <br />
 
   [![Results][results-screenshot]](https://example.com)
+
+  <p> Android Excel:
+
+  [![Excel format][android-table-screenshot]](https://example.com)
+
+   <p> Android outputs:
+
+[![Results][android-results-screenshot]](https://example.com)
 
 <!-- LICENSE -->
 
@@ -161,3 +170,5 @@ Project Link: [https://github.com/justinjcode/Excel2iOSString](https://github.co
 
 [table-screenshot]: screenshots/table.png
 [results-screenshot]: screenshots/results.png
+[android-table-screenshot]: screenshots/android_table.jpg
+[android-results-screenshot]: screenshots/android_result.jpg
