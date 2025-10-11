@@ -1,10 +1,8 @@
 # -*- coding:utf-8 -*-
 
 from optparse import OptionParser
-
-import XmlFileUtil
 from XlsFileUtil import XlsFileUtil
-from StringsFileUtil import StringsFileUtil
+from ArkTsFileUtil import ArkTsFileUtil
 from Log import Log
 import os
 import time
@@ -36,7 +34,6 @@ def addParser():
 
     return options
 
-
 def convertFromMultipleForm(options, fileDir, targetDir):
     print('convertFromMultipleForm')
     for _, _, filenames in os.walk(fileDir):
@@ -58,7 +55,10 @@ def convertFromMultipleForm(options, fileDir, targetDir):
                     # 第一行不是词条，跳过
                     if cell.row == 1:
                         continue
-                    keys.append(cell.value)
+                    if isCellNotEmpty(cell):
+                        keys.append(cell.value)
+                    else:
+                        keys.append("error_key!!!\"")
                 # 每一列对应一种语言
                 for column in sheet.columns:
                     if isCellNotEmpty(column[0]):
@@ -70,7 +70,8 @@ def convertFromMultipleForm(options, fileDir, targetDir):
                                 continue
                             else:
                                 values.append(cell.value)
-                        XmlFileUtil.write_localization_xml(xlsxFolderPath + "/values-" + language + "/", file_name + ".xml", keys, values)
+                        ArkTsFileUtil.writeToFile(keys, values, xlsxFolderPath + "/" + language + "/element/",
+                                                    file_name + ".json", options.additional)
         print('Convert %s successfully! you can see strings file in %s' % (fileDir, targetDir))
 
 
@@ -78,9 +79,10 @@ def isCellNotEmpty(cell):
     value = cell.value
     if value is not None:
         s = str(cell.value)
-        return s.strip() is not None and len(s.strip()) > 0
-    else:
+        return  s.strip() is not None and len(s.strip()) > 0
+    else :
         return False
+        
 
 
 def startConvert(options):

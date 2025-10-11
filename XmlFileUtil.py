@@ -11,8 +11,9 @@ def write_localization_xml( directory, filename, keys, values):
 
     # 将每个key-value对添加到<resources>中
     for key, value in zip(keys, values):
-        string_element = ET.SubElement(resources, "string", name=key)
-        string_element.text = value
+        if string_is_not_empty(key) and string_is_not_empty(value):
+            string_element = ET.SubElement(resources, "string", name=key)
+            string_element.text = value
 
     # 将XML转换为字符串，并格式化
     xml_str = ET.tostring(resources, encoding='utf-8')
@@ -23,3 +24,7 @@ def write_localization_xml( directory, filename, keys, values):
     with open(directory + '/' + filename, 'w', encoding='utf-8') as xml_file:
         xml_file.write(pretty_xml_as_string)
 
+def string_is_not_empty(s):
+    if s is None:
+        return False
+    return s.strip() is not None and len(s.strip()) > 0
