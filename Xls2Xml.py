@@ -69,9 +69,42 @@ def convertFromMultipleForm(options, fileDir, targetDir):
                                 # 第一行不是词条，跳过
                                 continue
                             else:
-                                values.append(cell.value)
+                                values.append(escape_android_string_value(cell.value))
                         XmlFileUtil.write_localization_xml(xlsxFolderPath + "/values-" + language + "/", file_name + ".xml", keys, values)
         print('Convert %s successfully! you can see strings file in %s' % (fileDir, targetDir))
+
+
+def escape_android_string_value(value):
+    """Escape apostrophes in a value according to Android string rules.
+
+    XML permits an apostrophe in element text, but Android resource values
+    require it to be escaped with a backslash. Keep an existing escape intact
+    and account for an even number of preceding backslashes, where the
+    apostrophe would still be unescaped by Android's resource parser.
+    """
+    if value is None:
+        return None
+
+    value = str(value)
+    if "'" not in value:
+        return value
+
+    escaped_value = []
+    preceding_backslashes = 0
+    for character in value:
+        if character == "'":
+            if preceding_backslashes % 2 == 0:
+                escaped_value.append("\\")
+            escaped_value.append(character)
+            preceding_backslashes = 0
+        else:
+            escaped_value.append(character)
+            if character == "\\":
+                preceding_backslashes += 1
+            else:
+                preceding_backslashes = 0
+
+    return "".join(escaped_value)
 
 
 def isCellNotEmpty(cell):
@@ -110,4 +143,5 @@ def main():
     startConvert(options)
 
 
-main()
+if __name__ == '__main__':
+    main()
