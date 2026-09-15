@@ -10,6 +10,40 @@ import os
 import time
 
 
+LATIN_LANGUAGE_CODES = frozenset({
+    "af", "az", "bs", "ca", "cs", "cy", "da", "de", "en", "es",
+    "et", "eu", "fi", "fr", "ga", "gl", "hr", "hu", "id", "is",
+    "it", "la", "lt", "lv", "ms", "mt", "nl", "no", "pl", "pt",
+    "ro", "sk", "sl", "sq", "sv", "sw", "tr", "vi",
+})
+LATIN_APOSTROPHE_TRANSLATION = str.maketrans({
+    "‘": "'",
+    "’": "'",
+    "＇": "'",
+})
+
+
+def is_latin_language(language):
+    """Return whether a language header identifies a Latin-script locale."""
+    if language is None:
+        return False
+
+    language_code = str(language).strip().replace("_", "-").split("-")[0].lower()
+    return language_code in LATIN_LANGUAGE_CODES
+
+
+def normalize_latin_apostrophes(value, language=None):
+    """Normalize typographic/full-width apostrophes in Latin locales."""
+    if value is None:
+        return None
+
+    value = str(value)
+    if not is_latin_language(language):
+        return value
+
+    return value.translate(LATIN_APOSTROPHE_TRANSLATION)
+
+
 def addParser():
     parser = OptionParser()
 
@@ -69,23 +103,25 @@ def convertFromMultipleForm(options, fileDir, targetDir):
                                 # 第一行不是词条，跳过
                                 continue
                             else:
-                                values.append(escape_android_string_value(cell.value))
+                                values.append(escape_android_string_value(cell.value, language))
                         XmlFileUtil.write_localization_xml(xlsxFolderPath + "/values-" + language + "/", file_name + ".xml", keys, values)
         print('Convert %s successfully! you can see strings file in %s' % (fileDir, targetDir))
 
 
-def escape_android_string_value(value):
+def escape_android_string_value(value, language=None):
     """Escape apostrophes in a value according to Android string rules.
 
     XML permits an apostrophe in element text, but Android resource values
-    require it to be escaped with a backslash. Keep an existing escape intact
-    and account for an even number of preceding backslashes, where the
-    apostrophe would still be unescaped by Android's resource parser.
+    require it to be escaped with a backslash. Latin locale values are
+    normalized first so typographic/full-width apostrophes from Excel do not
+    leak into the generated resource. Keep an existing escape intact and
+    account for an even number of preceding backslashes, where the apostrophe
+    would still be unescaped by Android's resource parser.
     """
+    value = normalize_latin_apostrophes(value, language)
     if value is None:
         return None
 
-    value = str(value)
     if "'" not in value:
         return value
 

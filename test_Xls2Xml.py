@@ -23,6 +23,21 @@ class Xls2XmlTests(unittest.TestCase):
             "L\\'amour",
         )
 
+    def test_normalizes_typographic_apostrophe_for_latin_language(self):
+        self.assertEqual(
+            Xls2Xml.escape_android_string_value(
+                "Errore durante l’analisi della risposta", "it"
+            ),
+            "Errore durante l\\'analisi della risposta",
+        )
+
+    def test_preserves_typographic_apostrophe_for_non_latin_language(self):
+        value = "保留 l’analisi"
+        self.assertEqual(
+            Xls2Xml.escape_android_string_value(value, "zh-Hans"),
+            value,
+        )
+
     def test_conversion_writes_android_escaped_value(self):
         with TemporaryDirectory() as temporary_directory:
             root = Path(temporary_directory)
@@ -36,7 +51,7 @@ class Xls2XmlTests(unittest.TestCase):
             sheet.append(["key", "it"])
             sheet.append([
                 "email_to_receive_code_description",
-                "Riceverai un'email per reimpostare la password",
+                "Riceverai un’email per reimpostare la password",
             ])
             workbook.save(input_directory / "strings.xlsx")
 
